@@ -169,27 +169,40 @@ async function itunesSearch(){
     const d = await r.json();
     itunesResults = d.results || [];
     if(!itunesResults.length){ grid.innerHTML = '<div class="state">没搜到相关歌曲，换个关键词试试 ♪</div>'; return; }
-    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:var(--muted); padding:8px; letter-spacing:.1em;">全网搜索 “${esc(q)}” · ${itunesResults.length} 个结果，点击标题直接播放 ♪</div>` + itunesResults.map((t,i) => `
+    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:var(--muted); padding:8px; letter-spacing:.1em;">全网搜索 “${esc(q)}” · ${itunesResults.length} 个结果 ♪</div>` + itunesResults.map((t,i) => `
       <article class="card">
         <span class="tag">全网</span>
-        <h2 class="title" style="cursor:pointer;" onclick="playSearchResult(${i})">▶ ${esc(t.trackName||"")}</h2>
+        <h2 class="title">${esc(t.trackName||"")}</h2>
         <p class="artist">${esc(t.artistName||"")}</p>
         <p class="note">${esc(t.collectionName||"")}</p>
-        <div style="margin:10px 0;"><img src="${(t.artworkUrl100||"").replace("100x100","200x200")}" style="width:100px;height:100px;border-radius:12px;cursor:pointer;" loading="lazy" onclick="playSearchResult(${i})"></div>
+        <div style="margin:10px 0;"><img src="${(t.artworkUrl100||"").replace("100x100","200x200")}" style="width:100px;height:100px;border-radius:12px;" loading="lazy"></div>
+        <div class="actions">
+          <button class="btn play" onclick="playPreview(${i}, this)">▶ 试听30秒</button>
+          <button class="btn yt" onclick="window.open('https://www.youtube.com/results?search_query='+encodeURIComponent('${esc((t.trackName||"")+" "+(t.artistName||"")).replace(/'/g,"\\'")}'),'_blank')">🎬 完整版</button>
+        </div>
         <div id="srplay${i}"></div>
       </article>`).join("");
   }catch(e){
     grid.innerHTML = '<div class="state">搜索失败，请检查网络后重试 ♪</div>';
   }
 }
-function playSearchResult(i){
+let currentPreviewAudio = null;
+let currentPreviewBtn = null;
+function playPreview(i, btn){
   const t = itunesResults[i];
-  if(!t) return;
-  // 收起其他
-  itunesResults.forEach((_,j) => { const el = document.getElementById("srplay"+j); if(el) el.innerHTML = ""; });
-  const query = encodeURIComponent((t.trackName||"") + " " + (t.artistName||""));
-  document.getElementById("srplay"+i).innerHTML =
-    `<div class="embed"><iframe src="https://www.youtube.com/embed?listType=search&list=${query}" width="100%" height="220" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
+  if(!t || !t.previewUrl) return;
+  // 停止当前播放
+  if(currentPreviewAudio){ currentPreviewAudio.pause(); currentPreviewAudio = null; }
+  if(currentPreviewBtn){ currentPreviewBtn.textContent = "▶ 试听30秒"; }
+  const box = document.getElementById("srplay"+i);
+  // 如果已经在播这首，则停止
+  if(currentPreviewBtn === btn){ currentPreviewBtn = null; box.innerHTML = ""; return; }
+  const audio = new Audio(t.previewUrl);
+  currentPreviewAudio = audio;
+  currentPreviewBtn = btn;
+  btn.textContent = "⏸ 停止";
+  audio.onended = () => { btn.textContent = "▶ 试听30秒"; currentPreviewAudio = null; currentPreviewBtn = null; };
+  audio.play().catch(() => { btn.textContent = "▶ 试听30秒"; });
 }
 </script>
 <main class="grid" id="grid"><div class="state">正在上针… ♪</div></main>

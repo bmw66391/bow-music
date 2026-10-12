@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bow 的怀旧金曲</title>
+<style>
+:root{
+  --bg:#171008; --bg2:#221709; --card:#241a0e; --card2:#2c2110;
+  --gold:#d9a441; --gold2:#f2c66d; --cream:#f3e7cf; --muted:#b9a27e;
+  --line:rgba(217,164,65,.22); --red:#c0392b;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC",serif;
+  background:
+    radial-gradient(1200px 600px at 50% -120px, rgba(217,164,65,.10), transparent 60%),
+    var(--bg);
+  color:var(--cream); min-height:100vh;
+}
+/* 顶部 */
+header{ text-align:center; padding:44px 20px 10px; position:relative; overflow:hidden;}
+.vinyl{
+  width:118px;height:118px;margin:0 auto 18px;border-radius:50%;
+  background:
+    radial-gradient(circle at center, var(--gold) 0 16%, #8a5a1d 16% 18%, #111 18% 100%),
+    repeating-radial-gradient(circle at center, #1c1c1c 0 2px, #262626 2px 4px);
+  background-blend-mode:normal;
+  box-shadow:0 0 0 6px rgba(217,164,65,.15), 0 10px 40px rgba(0,0,0,.6);
+  animation:spin 9s linear infinite; position:relative;
+}
+.vinyl::after{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background:repeating-radial-gradient(circle at center, transparent 0 3px, rgba(255,255,255,.045) 3px 4px);
+}
+.vinyl::before{
+  content:""; position:absolute; left:50%; top:50%; width:10px; height:10px;
+  background:var(--cream); border-radius:50%; transform:translate(-50%,-50%); z-index:2;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+h1{font-size:30px; letter-spacing:.35em; text-indent:.35em; margin:6px 0 8px; color:var(--gold2); font-weight:600;}
+.sub{color:var(--muted); font-size:14px; letter-spacing:.2em;}
+.stats{margin-top:14px; font-size:13px; color:var(--muted); letter-spacing:.1em;}
+.stats b{color:var(--gold2); font-size:16px; margin:0 4px;}
+/* 筛选 */
+.filters{
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  padding:22px 16px 6px; position:sticky; top:0; z-index:5;
+  background:linear-gradient(to bottom, var(--bg) 78%, transparent);
+}
+.filters button{
+  font-family:inherit; font-size:14px; letter-spacing:.15em;
+  padding:9px 18px; border-radius:999px; cursor:pointer;
+  background:transparent; color:var(--muted);
+  border:1px solid var(--line); transition:all .25s;
+}
+.filters button:hover{color:var(--cream); border-color:var(--gold);}
+.filters button.active{background:var(--gold); color:#1d1206; border-color:var(--gold); font-weight:600;}
+/* 列表 */
+.grid{
+  display:grid; gap:16px; padding:18px 16px 60px;
+  max-width:1080px; margin:0 auto;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+}
+/* 卡片 */
+.card{
+  background:linear-gradient(160deg, var(--card2), var(--card));
+  border:1px solid var(--line); border-radius:14px;
+  padding:18px 18px 16px; position:relative;
+  transition:transform .25s, box-shadow .25s, opacity .3s;
+  display:flex; flex-direction:column; gap:10px;
+}
+.card:hover{transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,.45); border-color:rgba(217,164,65,.45);}
+.card.listened{opacity:.45;}
+.card.listened .title{text-decoration:line-through; text-decoration-color:var(--gold);}
+.tag{
+  align-self:flex-start; font-size:12px; letter-spacing:.2em;
+  color:var(--gold2); border:1px solid var(--line);
+  padding:4px 12px; border-radius:999px; background:rgba(217,164,65,.08);
+}
+.title{font-size:20px; font-weight:600; color:var(--cream); line-height:1.4; margin:0;}
+.artist{font-size:14px; color:var(--muted); letter-spacing:.1em; margin:0;}
+.note{
+  font-size:14px; line-height:1.7; color:#d8c9a8; margin:0;
+  border-left:2px solid var(--gold); padding-left:12px; font-style:normal;
+}
+.actions{display:flex; gap:10px; margin-top:auto; padding-top:6px;}
+.embed{margin-top:12px; border-radius:12px; overflow:hidden; border:1px solid var(--line);}
+.embed iframe{display:block;}
+.btn{
+  font-family:inherit; flex:1; font-size:14px; letter-spacing:.12em;
+  padding:10px 0; border-radius:10px; cursor:pointer; text-align:center;
+  text-decoration:none; transition:all .25s; border:1px solid var(--line);
+}
+.play{background:var(--gold); color:#1d1206; border-color:var(--gold); font-weight:600;}
+.play:hover{background:var(--gold2);}
+.play.big{flex:none; padding:12px 32px; font-size:16px; border-radius:999px;}
+.listen{background:transparent; color:var(--muted);}
+.listen:hover{color:var(--cream); border-color:var(--gold);}
+.app{background:#1db954; color:#fff; border-color:#1db954; font-weight:600; flex:1; display:flex; align-items:center; justify-content:center;}
+.app:hover{background:#1ed760;}
+.yt{background:#c4302b; color:#fff; border-color:#c4302b; font-weight:600;}
+.yt:hover{background:#e04038;}
+.card.listened .listen{color:var(--gold2); border-color:var(--gold);}
+.check{
+  position:absolute; top:12px; right:14px; font-size:20px; color:var(--gold2);
+  display:none;
+}
+.card.listened .check{display:block;}
+/* 空态 / 加载 */
+.state{grid-column:1/-1; text-align:center; color:var(--muted); padding:60px 0; letter-spacing:.2em;}
+footer{text-align:center; color:var(--muted); font-size:12px; letter-spacing:.25em; padding:0 20px 44px;}
+@media (max-width:640px){
+  h1{font-size:24px;}
+  .vinyl{width:92px;height:92px;}
+  .filters{top:0;}
+  .grid{grid-template-columns:1fr; padding:14px 14px 50px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="vinyl"></div>
+  <h1>怀旧金曲</h1>
+  <div class="sub">BOW'S VINYL COLLECTION</div>
+  <div class="stats" id="stats"></div>
+  <div style="margin-top:16px;"><button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button></div>
+  <div id="playlistBox" style="display:none; max-width:640px; margin:16px auto 0; border-radius:12px; overflow:hidden; border:1px solid var(--line);"></div>
+</header>
+<nav class="filters" id="filters"></nav>
+<main class="grid" id="grid"><div class="state">正在上针… ♪</div></main>
+<footer>每天自动推送 · 一键直达 SPOTIFY</footer>
+<script>
+const CATS = { all:"全部", mandarin:"华语老歌", showa:"昭和歌谣", western:"西洋抒情", instrumental:"轻音乐" };
+
+/* 歌曲数据（静态嵌入） */
+const SONGS = [
+  { id:1, title:"大海", artist:"張雨生", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/4XglvuvmwdVQ1MpV3zNUnR",
+    youtube_id:"ufHOR9N8dkk",
+    note:"从你的收藏出发，今晚先听这一首。" },
+  { id:2, title:"月亮代表我的心", artist:"鄧麗君", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/3Srw8isgDzmYsgwDi4MtbD",
+    youtube_id:"eOtATMfvfg8",
+    note:"一首温柔、耐听的华语老歌。" },
+  { id:3, title:"酒矸倘賣嘸", artist:"蘇芮", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/09ic9Kfo2u1mwwHbRj6FJI",
+    youtube_id:"XJfFYbZn_P8",
+    note:"厚实嗓音与直抵人心的情绪。" },
+  { id:4, title:"恋人よ（五輪真弓ライブ〜心の友〜）", artist:"五輪真弓", category:"showa",
+    spotify_url:"https://open.spotify.com/track/0S1sGW9QJaj4nC46mSmgkp",
+    youtube_id:"nFN3iZ2yrNM",
+    note:"昭和歌谣的沉静与余韵。" },
+  { id:5, title:"赤いスイートピー", artist:"松田聖子", category:"showa",
+    spotify_url:"https://open.spotify.com/track/0b5iSriqvDLmd6QSWkalr3",
+    youtube_id:"2Htj6AChzTE",
+    note:"轻盈明亮的昭和偶像经典。" },
+  { id:6, title:"How Am I Supposed to Live Without You", artist:"Michael Bolton", category:"western",
+    spotify_url:"https://open.spotify.com/track/3RMeOetCdXttthQK0clPuz",
+    youtube_id:"YFood_bTOX4",
+    note:"你的收藏里那种宽阔、深情的西洋抒情歌。" },
+  { id:7, title:"Love Is Blue", artist:"Paul Mauriat", category:"instrumental",
+    spotify_url:"https://open.spotify.com/track/4ryGt6hcwzQb4z6IgW8sRG",
+    youtube_id:"yNpdhxgpJzw",
+    note:"适合安静时段的轻音乐。" },
+  { id:8, title:"甜蜜蜜", artist:"鄧麗君", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/2XoUbKNeEbvoI0rP3XrHGp",
+    youtube_id:"5eF8oOWtsk4",
+    note:"邓丽君最具代表性的甜歌，百听不厌。" },
+  { id:9, title:"川の流れのように", artist:"美空ひばり", category:"showa",
+    spotify_url:"https://open.spotify.com/track/6urXTI5WTaxsYrqarIDIZY",
+    youtube_id:"tr9V1V2eyfY",
+    note:"昭和歌谣的巅峰之作，荡气回肠。" },
+  { id:10, title:"A Love So Beautiful", artist:"Michael Bolton", category:"western",
+    spotify_url:"https://open.spotify.com/track/25Tv2fijQx21CR70wDGwia",
+    youtube_id:"YOkkJD8SohA",
+    note:"你收藏过的 Michael Bolton 深情代表作。" }
+];
+
+/* 听过状态：localStorage 持久化 */
+const LS_KEY = "bow-music-listened";
+function loadListened(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    const arr = JSON.parse(raw || "[]");
+    return new Set(Array.isArray(arr) ? arr : []);
+  }catch(e){ return new Set(); }
+}
+function saveListened(set){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify([...set])); }catch(e){}
+}
+
+let songs = SONGS.map(s => ({...s, is_listened:false}));
+let cur = "all";
+
+const grid = document.getElementById("grid");
+const filtersEl = document.getElementById("filters");
+const statsEl = document.getElementById("stats");
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function renderFilters(){
+  filtersEl.innerHTML = Object.keys(CATS).map(k =>
+    `<button data-cat="${k}" class="${k===cur?"active":""}" onclick="setFilter('${k}')">${CATS[k]}</button>`
+  ).join("");
+}
+function setFilter(k){ cur = k; renderFilters(); render(); }
+window.setFilter = setFilter;
+
+function toggleListen(id){
+  const listened = loadListened();
+  if(listened.has(id)) listened.delete(id); else listened.add(id);
+  saveListened(listened);
+  songs = songs.map(s => s.id===id ? {...s, is_listened:listened.has(id)} : s);
+  render();
+}
+window.toggleListen = toggleListen;
+
+function trackId(url){
+  const m = String(url||"").match(/\/track\/([A-Za-z0-9]+)/);
+  return m ? m[1] : "";
+}
+let playingId = null;
+let playingYtId = null;
+let playlistOpen = false;
+function togglePlay(id){
+  playingId = (playingId === id) ? null : id;
+  render();
+}
+window.togglePlay = togglePlay;
+function toggleYt(id){
+  playingYtId = (playingYtId === id) ? null : id;
+  render();
+}
+window.toggleYt = toggleYt;
+function togglePlaylist(){
+  playlistOpen = !playlistOpen;
+  const box = document.getElementById("playlistBox");
+  if(playlistOpen){
+    box.style.display = "block";
+    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/5mWHweQFbzm5KqGgadhuIS?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+  } else {
+    box.style.display = "none";
+    box.innerHTML = "";
+  }
+}
+window.togglePlaylist = togglePlaylist;
+
+function render(){
+  const list = songs.filter(s => cur==="all" || s.category===cur);
+  const done = songs.filter(s=>s.is_listened).length;
+  statsEl.innerHTML = `共 <b>${songs.length}</b> 首 · 已听 <b>${done}</b> 首`;
+  if(!list.length){ grid.innerHTML = '<div class="state">这里还没有歌曲，明天再来听听 ♪</div>'; return; }
+  grid.innerHTML = list.map(s => {
+    const tid = trackId(s.spotify_url);
+    const isPlaying = playingId === s.id;
+    const isYtPlaying = playingYtId === s.id;
+    return `
+    <article class="card ${s.is_listened?"listened":""}">
+      <span class="check">✓</span>
+      <span class="tag">${esc(CATS[s.category]||s.category)}</span>
+      <h2 class="title">${esc(s.title)}</h2>
+      <p class="artist">${esc(s.artist)}</p>
+      ${s.note ? `<p class="note">${esc(s.note)}</p>` : ""}
+      <div class="actions">
+        <button class="btn play" onclick="togglePlay(${s.id})">${isPlaying?"⏸ 收起":"▶ Spotify播"}</button>
+        ${s.youtube_id ? `<button class="btn yt" onclick="toggleYt(${s.id})">${isYtPlaying?"⏸ 收起":"▶ YouTube播"}</button>` : ""}
+        ${tid ? `<a class="btn app" href="spotify:track:${tid}">🎧 App</a>` : ""}
+        <button class="btn listen" onclick="toggleListen(${s.id})">${s.is_listened?"已听过":"标记听过"}</button>
+      </div>
+      ${isPlaying && tid ? `<div class="embed"><iframe src="https://open.spotify.com/embed/track/${tid}?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>` : ""}
+      ${isYtPlaying && s.youtube_id ? `<div class="embed"><iframe src="https://www.youtube.com/embed/${s.youtube_id}" width="100%" height="220" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>` : ""}
+    </article>`;}).join("");
+}
+
+(function init(){
+  const listened = loadListened();
+  songs = songs.map(s => ({...s, is_listened:listened.has(s.id)}));
+  renderFilters();
+  render();
+})();
+</script>
+</body>
+</html>

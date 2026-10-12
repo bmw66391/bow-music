@@ -160,6 +160,7 @@ function ytSearch(){
   if(q) window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(q), "_blank");
 }
 let itunesResults = [];
+const YT_API_KEY = "AIzaSyD8rBC7nGCsCUE47xD5gIdqWsCWM8N0mos";
 async function itunesSearch(){
   const q = document.getElementById("searchInput").value.trim();
   if(!q) return;
@@ -178,7 +179,7 @@ async function itunesSearch(){
         <div style="margin:10px 0;"><img src="${(t.artworkUrl100||"").replace("100x100","200x200")}" style="width:100px;height:100px;border-radius:12px;" loading="lazy"></div>
         <div class="actions">
           <button class="btn play" onclick="playPreview(${i}, this)">▶ 试听30秒</button>
-          <button class="btn yt" onclick="window.open('https://www.youtube.com/results?search_query='+encodeURIComponent('${esc((t.trackName||"")+" "+(t.artistName||"")).replace(/'/g,"\\'")}'),'_blank')">🎬 完整版</button>
+          <button class="btn yt" onclick="ytPlaySearch(${i}, this)">▶ YouTube播</button>
         </div>
         <div id="srplay${i}"></div>
       </article>`).join("");
@@ -203,6 +204,31 @@ function playPreview(i, btn){
   btn.textContent = "⏸ 停止";
   audio.onended = () => { btn.textContent = "▶ 试听30秒"; currentPreviewAudio = null; currentPreviewBtn = null; };
   audio.play().catch(() => { btn.textContent = "▶ 试听30秒"; });
+}
+let currentYtSearchFrame = null;
+async function ytPlaySearch(i, btn){
+  const t = itunesResults[i];
+  if(!t) return;
+  const box = document.getElementById("srplay"+i);
+  // 停止试听
+  if(currentPreviewAudio){ currentPreviewAudio.pause(); currentPreviewAudio = null; }
+  if(currentPreviewBtn){ currentPreviewBtn.textContent = "▶ 试听30秒"; currentPreviewBtn = null; }
+  // 收起其他
+  itunesResults.forEach((_,j) => { if(j !== i){ const el = document.getElementById("srplay"+j); if(el) el.innerHTML = ""; } });
+  if(box.innerHTML){ box.innerHTML = ""; btn.textContent = "▶ YouTube播"; return; }
+  btn.textContent = "搜索中…";
+  try{
+    const q = encodeURIComponent((t.trackName||"") + " " + (t.artistName||""));
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&videoEmbeddable=true&q=${q}&key=${YT_API_KEY}`);
+    const d = await r.json();
+    const vid = d.items && d.items[0] && d.items[0].id && d.items[0].id.videoId;
+    if(!vid) throw new Error("no video");
+    box.innerHTML = `<div class="embed"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" width="100%" height="220" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
+    btn.textContent = "⏸ 收起";
+  }catch(e){
+    btn.textContent = "▶ YouTube播";
+    box.innerHTML = '<div class="state">没找到可播视频，换一首试试 ♪</div>';
+  }
 }
 </script>
 <main class="grid" id="grid"><div class="state">正在上针… ♪</div></main>

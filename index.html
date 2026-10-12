@@ -96,6 +96,9 @@ h1{font-size:30px; letter-spacing:.35em; text-indent:.35em; margin:6px 0 8px; co
 .play{background:var(--gold); color:#1d1206; border-color:var(--gold); font-weight:600;}
 .play:hover{background:var(--gold2);}
 .play.big{flex:none; padding:12px 32px; font-size:16px; border-radius:999px;}
+.btn.big{flex:none; padding:12px 32px; font-size:16px; border-radius:999px; text-decoration:none; display:inline-block;}
+.shuffle{background:#7b2ff7; color:#fff; border:1px solid #7b2ff7; font-weight:600;}
+.shuffle:hover{background:#9350ff;}
 .listen{background:transparent; color:var(--muted);}
 .listen:hover{color:var(--cream); border-color:var(--gold);}
 .app{background:#1db954; color:#fff; border-color:#1db954; font-weight:600; flex:1; display:flex; align-items:center; justify-content:center;}
@@ -125,7 +128,10 @@ footer{text-align:center; color:var(--muted); font-size:12px; letter-spacing:.25
   <h1>怀旧金曲</h1>
   <div class="sub">BOW'S VINYL COLLECTION</div>
   <div class="stats" id="stats"></div>
-  <div style="margin-top:16px;"><button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button></div>
+  <div style="margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+    <button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button>
+    <a class="btn big shuffle" href="spotify:playlist:5mWHweQFbzm5KqGgadhuIS">🔀 随机播放</a>
+  </div>
   <div id="playlistBox" style="display:none; max-width:640px; margin:16px auto 0; border-radius:12px; overflow:hidden; border:1px solid var(--line);"></div>
 </header>
 <nav class="filters" id="filters"></nav>

@@ -169,7 +169,7 @@ async function itunesSearch(){
     const d = await r.json();
     itunesResults = d.results || [];
     if(!itunesResults.length){ grid.innerHTML = '<div class="state">没搜到相关歌曲，换个关键词试试 ♪</div>'; return; }
-    grid.innerHTML = itunesResults.map((t,i) => `
+    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:var(--muted); padding:8px; letter-spacing:.1em;">全网搜索 “${esc(q)}” · ${itunesResults.length} 个结果，点击标题直接播放 ♪</div>` + itunesResults.map((t,i) => `
       <article class="card">
         <span class="tag">全网</span>
         <h2 class="title" style="cursor:pointer;" onclick="playSearchResult(${i})">▶ ${esc(t.trackName||"")}</h2>

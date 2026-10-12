@@ -407,8 +407,8 @@ function render(){
   const done = songs.filter(s=>s.is_listened).length;
   statsEl.innerHTML = `共 <b>${songs.length}</b> 首 · 已听 <b>${done}</b> 首`;
   if(!list.length){
-    const spSearch = query ? `<div style="margin-top:14px;"><a class="btn play big" href="https://open.spotify.com/search/${encodeURIComponent(query)}" target="_blank" rel="noopener">🎵 去 Spotify 搜"${esc(query)}"</a></div>` : "";
-    grid.innerHTML = `<div class="state">站内没有找到相关歌曲，明天会推送更多 ♪${spSearch}</div>`; return;
+    if(query && typeof itunesSearch === "function"){ itunesSearch(); return; }
+    grid.innerHTML = '<div class="state">这里还没有歌曲，明天再来听听 ♪</div>'; return;
   }
   grid.innerHTML = list.map(s => {
     const tid = trackId(s.spotify_url);

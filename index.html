@@ -192,18 +192,23 @@ let currentPreviewBtn = null;
 function playPreview(i, btn){
   const t = itunesResults[i];
   if(!t || !t.previewUrl) return;
-  // 停止当前播放
-  if(currentPreviewAudio){ currentPreviewAudio.pause(); currentPreviewAudio = null; }
-  if(currentPreviewBtn){ currentPreviewBtn.textContent = "▶ 试听30秒"; }
   const box = document.getElementById("srplay"+i);
-  // 如果已经在播这首，则停止
-  if(currentPreviewBtn === btn){ currentPreviewBtn = null; box.innerHTML = ""; return; }
-  const audio = new Audio(t.previewUrl);
+  // 停止其他试听并复位按钮
+  itunesResults.forEach((_,j) => {
+    const el = document.getElementById("srplay"+j);
+    if(el && el.querySelector("audio")) el.innerHTML = "";
+  });
+  document.querySelectorAll(".btn.play").forEach(b => { if(b.textContent.includes("试听")) b.textContent = "▶ 试听30秒"; });
+  // 如果已经在播这首，则收起
+  if(box.querySelector("audio")){ box.innerHTML = ""; btn.textContent = "▶ 试听30秒"; currentPreviewAudio = null; currentPreviewBtn = null; return; }
+  // 收起 YouTube 嵌入
+  box.innerHTML = `<audio controls preload="none" src="${t.previewUrl}" style="width:100%; margin-top:8px;"></audio>`;
+  const audio = box.querySelector("audio");
   currentPreviewAudio = audio;
   currentPreviewBtn = btn;
-  btn.textContent = "⏸ 停止";
+  btn.textContent = "⏸ 收起试听";
   audio.onended = () => { btn.textContent = "▶ 试听30秒"; currentPreviewAudio = null; currentPreviewBtn = null; };
-  audio.play().catch(() => { btn.textContent = "▶ 试听30秒"; });
+  audio.play().catch(() => {});
 }
 let currentYtSearchFrame = null;
 async function ytPlaySearch(i, btn){

@@ -171,19 +171,25 @@ async function itunesSearch(){
     if(!itunesResults.length){ grid.innerHTML = '<div class="state">没搜到相关歌曲，换个关键词试试 ♪</div>'; return; }
     grid.innerHTML = itunesResults.map((t,i) => `
       <article class="card">
-        <span class="tag">全网试听</span>
-        <h2 class="title">${esc(t.trackName||"")}</h2>
+        <span class="tag">全网</span>
+        <h2 class="title" style="cursor:pointer;" onclick="playSearchResult(${i})">▶ ${esc(t.trackName||"")}</h2>
         <p class="artist">${esc(t.artistName||"")}</p>
         <p class="note">${esc(t.collectionName||"")}</p>
-        <div style="margin:10px 0;"><img src="${(t.artworkUrl100||"").replace("100x100","200x200")}" style="width:100px;height:100px;border-radius:12px;" loading="lazy"></div>
-        <div class="actions">
-          <button class="btn play" onclick="document.getElementById('aprev${i}').play()">▶ 试听30秒</button>
-        </div>
-        <audio id="aprev${i}" src="${t.previewUrl||""}" preload="none"></audio>
+        <div style="margin:10px 0;"><img src="${(t.artworkUrl100||"").replace("100x100","200x200")}" style="width:100px;height:100px;border-radius:12px;cursor:pointer;" loading="lazy" onclick="playSearchResult(${i})"></div>
+        <div id="srplay${i}"></div>
       </article>`).join("");
   }catch(e){
     grid.innerHTML = '<div class="state">搜索失败，请检查网络后重试 ♪</div>';
   }
+}
+function playSearchResult(i){
+  const t = itunesResults[i];
+  if(!t) return;
+  // 收起其他
+  itunesResults.forEach((_,j) => { const el = document.getElementById("srplay"+j); if(el) el.innerHTML = ""; });
+  const query = encodeURIComponent((t.trackName||"") + " " + (t.artistName||""));
+  document.getElementById("srplay"+i).innerHTML =
+    `<div class="embed"><iframe src="https://www.youtube.com/embed?listType=search&list=${query}" width="100%" height="220" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
 }
 </script>
 <main class="grid" id="grid"><div class="state">正在上针… ♪</div></main>

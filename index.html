@@ -137,7 +137,7 @@ footer{text-align:center; color:var(--muted); font-size:12px; letter-spacing:.25
   <div class="stats" id="stats"></div>
   <div style="margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
     <button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button>
-    <a class="btn big shuffle" href="spotify:playlist:6WXPYBpoE9v7NuBEvB3kit">🔀 随机播放</a>
+    <a class="btn big shuffle" href="spotify:playlist:4TPAvBoojdz4d3J8NKEiuN">🔀 随机播放</a>
   </div>
   <div id="playlistBox" style="display:none; max-width:640px; margin:16px auto 0; border-radius:12px; overflow:hidden; border:1px solid var(--line);"></div>
 </header>
@@ -395,7 +395,7 @@ function togglePlaylist(){
   const box = document.getElementById("playlistBox");
   if(playlistOpen){
     box.style.display = "block";
-    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/6WXPYBpoE9v7NuBEvB3kit?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/4TPAvBoojdz4d3J8NKEiuN?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
   } else {
     box.style.display = "none";
     box.innerHTML = "";

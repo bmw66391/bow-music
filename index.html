@@ -393,6 +393,8 @@ function trackId(url){
 let playingId = null;
 let playingYtId = null;
 let playlistOpen = false;
+let lastList = [];
+let ytQueue = [];
 function togglePlay(id){
   const willPlay = (playingId !== id);
   stopAllPlayers();
@@ -403,7 +405,16 @@ window.togglePlay = togglePlay;
 function toggleYt(id){
   const willPlay = (playingYtId !== id);
   stopAllPlayers();
-  playingYtId = willPlay ? id : null;
+  if(willPlay){
+    // 组连播队列：从点的这首开始，后续有 YouTube 的歌排队，播完循环
+    const withYt = lastList.filter(s => s.youtube_id);
+    const startIdx = withYt.findIndex(s => s.id === id);
+    ytQueue = startIdx >= 0 ? withYt.slice(startIdx).concat(withYt.slice(0, startIdx)) : withYt;
+    playingYtId = id;
+  } else {
+    playingYtId = null;
+    ytQueue = [];
+  }
   render();
 }
 window.toggleYt = toggleYt;
@@ -427,6 +438,7 @@ function render(){
     (cur==="all" || s.category===cur) &&
     (!query || s.title.toLowerCase().includes(query) || s.artist.toLowerCase().includes(query))
   );
+  lastList = list;
   const done = songs.filter(s=>s.is_listened).length;
   statsEl.innerHTML = `共 <b>${songs.length}</b> 首 · 已听 <b>${done}</b> 首`;
   if(!list.length){
@@ -436,8 +448,7 @@ function render(){
   grid.innerHTML = list.map(s => {
     const tid = trackId(s.spotify_url);
     const isPlaying = playingId === s.id;
-    const isYtPlaying = playingYtId === s.id;
-    return `
+    const isYtPlaying = playingYtId === s.id;    return `
     <article class="card ${s.is_listened?"listened":""}">
       <span class="check">✓</span>
       <span class="tag">${esc(CATS[s.category]||s.category)}</span>
@@ -451,7 +462,7 @@ function render(){
         <button class="btn listen" onclick="toggleListen(${s.id})">${s.is_listened?"已听过":"标记听过"}</button>
       </div>
       ${isPlaying && tid ? `<div class="embed"><iframe src="https://open.spotify.com/embed/track/${tid}?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>` : ""}
-      ${isYtPlaying && s.youtube_id ? `<div class="embed"><iframe src="https://www.youtube.com/embed/${s.youtube_id}" width="100%" height="220" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>` : ""}
+      ${isYtPlaying && s.youtube_id ? `<div class="embed"><iframe src="https://www.youtube.com/embed/${s.youtube_id}?playlist=${ytQueue.slice(1).map(q=>q.youtube_id).join(",")}&rel=0&loop=1&autoplay=1" width="100%" height="220" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div><div style="text-align:center;color:var(--muted);font-size:12px;padding:4px;">播完自动下一首 · 共 ${ytQueue.length} 首连播</div>` : ""}
     </article>`;}).join("");
 }
 

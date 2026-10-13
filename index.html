@@ -161,6 +161,20 @@ function ytSearch(){
 }
 let itunesResults = [];
 const YT_API_KEY = "AIzaSyD8rBC7nGCsCUE47xD5gIdqWsCWM8N0mos";
+// 全局：停掉所有正在播的（互斥播放）
+function stopAllPlayers(){
+  document.querySelectorAll("audio").forEach(a => { try{ a.pause(); }catch(e){} });
+  document.querySelectorAll("#grid .embed").forEach(e => e.remove());
+  const pb = document.getElementById("playlistBox");
+  if(pb){ pb.style.display = "none"; pb.innerHTML = ""; }
+  if(typeof itunesResults !== "undefined"){
+    itunesResults.forEach((_,j) => { const el = document.getElementById("srplay"+j); if(el) el.innerHTML = ""; });
+  }
+  try{ playingId = null; playingYtId = null; playlistOpen = false; }catch(e){}
+  document.querySelectorAll(".btn.play").forEach(b => { if(b.textContent.includes("试听")) b.textContent = "▶ 试听30秒"; });
+  document.querySelectorAll(".btn.yt").forEach(b => { if(b.textContent.includes("收起")) b.textContent = "▶ YouTube播"; });
+}
+window.stopAllPlayers = stopAllPlayers;
 async function itunesSearch(){
   const q = document.getElementById("searchInput").value.trim();
   if(!q) return;
@@ -193,14 +207,9 @@ function playPreview(i, btn){
   const t = itunesResults[i];
   if(!t || !t.previewUrl) return;
   const box = document.getElementById("srplay"+i);
-  // 停止其他试听并复位按钮
-  itunesResults.forEach((_,j) => {
-    const el = document.getElementById("srplay"+j);
-    if(el && el.querySelector("audio")) el.innerHTML = "";
-  });
-  document.querySelectorAll(".btn.play").forEach(b => { if(b.textContent.includes("试听")) b.textContent = "▶ 试听30秒"; });
   // 如果已经在播这首，则收起
   if(box.querySelector("audio")){ box.innerHTML = ""; btn.textContent = "▶ 试听30秒"; currentPreviewAudio = null; currentPreviewBtn = null; return; }
+  stopAllPlayers();
   // 收起 YouTube 嵌入
   box.innerHTML = `<audio controls preload="none" src="${t.previewUrl}" style="width:100%; margin-top:8px;"></audio>`;
   const audio = box.querySelector("audio");
@@ -208,6 +217,14 @@ function playPreview(i, btn){
   currentPreviewBtn = btn;
   btn.textContent = "⏸ 收起试听";
   audio.onended = () => { btn.textContent = "▶ 试听30秒"; currentPreviewAudio = null; currentPreviewBtn = null; };
+  // 锁屏/后台播放信息
+  if("mediaSession" in navigator){
+    try{
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: t.trackName || "", artist: t.artistName || "", album: t.collectionName || ""
+      });
+    }catch(e){}
+  }
   audio.play().catch(() => {});
 }
 let currentYtSearchFrame = null;
@@ -215,12 +232,8 @@ async function ytPlaySearch(i, btn){
   const t = itunesResults[i];
   if(!t) return;
   const box = document.getElementById("srplay"+i);
-  // 停止试听
-  if(currentPreviewAudio){ currentPreviewAudio.pause(); currentPreviewAudio = null; }
-  if(currentPreviewBtn){ currentPreviewBtn.textContent = "▶ 试听30秒"; currentPreviewBtn = null; }
-  // 收起其他
-  itunesResults.forEach((_,j) => { if(j !== i){ const el = document.getElementById("srplay"+j); if(el) el.innerHTML = ""; } });
-  if(box.innerHTML){ box.innerHTML = ""; btn.textContent = "▶ YouTube播"; return; }
+  if(box.querySelector("iframe")){ box.innerHTML = ""; btn.textContent = "▶ YouTube播"; return; }
+  stopAllPlayers();
   btn.textContent = "搜索中…";
   try{
     const q = encodeURIComponent((t.trackName||"") + " " + (t.artistName||""));
@@ -381,29 +394,35 @@ let playingId = null;
 let playingYtId = null;
 let playlistOpen = false;
 function togglePlay(id){
-  playingId = (playingId === id) ? null : id;
+  const willPlay = (playingId !== id);
+  stopAllPlayers();
+  playingId = willPlay ? id : null;
   render();
 }
 window.togglePlay = togglePlay;
 function toggleYt(id){
-  playingYtId = (playingYtId === id) ? null : id;
+  const willPlay = (playingYtId !== id);
+  stopAllPlayers();
+  playingYtId = willPlay ? id : null;
   render();
 }
 window.toggleYt = toggleYt;
 function togglePlaylist(){
-  playlistOpen = !playlistOpen;
-  const box = document.getElementById("playlistBox");
-  if(playlistOpen){
+  const wasOpen = playlistOpen;
+  stopAllPlayers();
+  if(!wasOpen){
+    playlistOpen = true;
+    const box = document.getElementById("playlistBox");
     box.style.display = "block";
     box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/4TPAvBoojdz4d3J8NKEiuN?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
-  } else {
-    box.style.display = "none";
-    box.innerHTML = "";
   }
+  render();
 }
 window.togglePlaylist = togglePlaylist;
 
 function render(){
+  // 渲染前停掉可能还在播的 audio（比如从搜索结果切回时）
+  document.querySelectorAll("audio").forEach(a => { try{ a.pause(); }catch(e){} });
   const list = songs.filter(s =>
     (cur==="all" || s.category===cur) &&
     (!query || s.title.toLowerCase().includes(query) || s.artist.toLowerCase().includes(query))

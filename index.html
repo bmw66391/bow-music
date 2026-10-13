@@ -137,7 +137,7 @@ footer{text-align:center; color:var(--muted); font-size:12px; letter-spacing:.25
   <div class="stats" id="stats"></div>
   <div style="margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
     <button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button>
-    <a class="btn big shuffle" href="spotify:playlist:5mWHweQFbzm5KqGgadhuIS">🔀 随机播放</a>
+    <a class="btn big shuffle" href="spotify:playlist:6WXPYBpoE9v7NuBEvB3kit">🔀 随机播放</a>
   </div>
   <div id="playlistBox" style="display:none; max-width:640px; margin:16px auto 0; border-radius:12px; overflow:hidden; border:1px solid var(--line);"></div>
 </header>
@@ -363,6 +363,86 @@ const SONGS = [
     spotify_url:"https://open.spotify.com/track/00ZuhwROMYk2pXBFnhTZeP",
     youtube_id:"AR88y3Htg3M",
     note:"Paul Mauriat 的另一經典，夜色般沉靜的旋律。" },
+  { id:31, title:"何日君再來", artist:"鄧麗君", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/4AqOztecJN6RAchsAU1ee6",
+    youtube_id:"MwbImDeVJAY",
+    note:"傳唱半世紀的經典，時間越久越有味道。" },
+  { id:32, title:"我只在乎你", artist:"鄧麗君", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/5TnTpwESmcoQbO9qYW3iZb",
+    youtube_id:"8jv_tntL7pk",
+    note:"鄧麗君晚期的代表作，也是你收藏裡的一首。" },
+  { id:33, title:"口是心非", artist:"張雨生", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/6inVwlrse8XGoDaTp1QamS",
+    youtube_id:"QAmsnJQEb20",
+    note:"張雨生為自己寫的歌，驕傲又脆弱的靈魂。" },
+  { id:34, title:"親愛的小孩", artist:"蘇芮", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/1g7dpF2Z9faYNCc0zwzxzM",
+    youtube_id:"Jq5MzlkXXfE",
+    note:"蘇芮最溫柔的一次傾訴，聽完想給家人打電話。" },
+  { id:35, title:"掌聲響起", artist:"鳳飛飛", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/5cbbtFwm09MwwicU9SDHJA",
+    youtube_id:"yLswJF8-UQU",
+    note:"鳳飛飛的經典名曲，唱給所有在人生舞台上努力的人。" },
+  { id:36, title:"つぐない", artist:"鄧麗君", category:"showa",
+    spotify_url:"https://open.spotify.com/track/7BvRirLX1FGRM7Ud03kQoU",
+    youtube_id:"a_dowdgrh5E",
+    note:"鄧麗君的日文名曲，昭和歌謠史上的華人傳奇。" },
+  { id:37, title:"青い珊瑚礁", artist:"松田聖子", category:"showa",
+    spotify_url:"https://open.spotify.com/track/7HkF9x24fKstq9LJ7obSJg",
+    youtube_id:"DVOgvzl395w",
+    note:"松田聖子的成名曲，你收藏裡也有這一首。" },
+  { id:38, title:"DESIRE -情熱-", artist:"中森明菜", category:"showa",
+    spotify_url:"https://open.spotify.com/track/4KNzWK6P3baDorUIuMNE0Y",
+    youtube_id:"3eoAES_MioI",
+    note:"中森明菜的經典名曲，昭和偶像的性感與力量。" },
+  { id:39, title:"恋におちて -Fall in love-", artist:"小林明子", category:"showa",
+    spotify_url:"https://open.spotify.com/track/7A9SOFaePAOW5dUPEwSY5P",
+    youtube_id:"1DSVYgpxmwc",
+    note:"小林明子的代表作，情歌裡的優雅教科書，你收藏過。" },
+  { id:40, title:"UFO", artist:"ピンク・レディー", category:"showa",
+    spotify_url:"https://open.spotify.com/track/6dWDWdEQUbuxGHOIc80kO9",
+    youtube_id:"7y2qlJ0B_lI",
+    note:"Pink Lady 的迪斯科名曲，昭和時代的國民記憶。" },
+  { id:41, title:"When a Man Loves a Woman", artist:"Michael Bolton", category:"western",
+    spotify_url:"https://open.spotify.com/track/3ascnOSOR5MX901ylGuhcl",
+    youtube_id:"MUuNDb-nm5M",
+    note:"Michael Bolton 的深情演繹，你收藏裡的經典。" },
+  { id:42, title:"Right Here Waiting", artist:"Richard Marx", category:"western",
+    spotify_url:"https://open.spotify.com/track/4LFwNJWoj74Yd71fIr1W8x",
+    youtube_id:"S_E2EHVxNAE",
+    note:"等待，是最長情的告白，你的收藏裡有它。" },
+  { id:43, title:"The One That You Love", artist:"Air Supply", category:"western",
+    spotify_url:"https://open.spotify.com/track/3FDAd5vW4P7xe1GBNOLyfD",
+    youtube_id:"nY31ZH6hAFI",
+    note:"Air Supply 的冠軍金曲，和聲依舊華麗動人。" },
+  { id:44, title:"How Deep Is Your Love", artist:"Bee Gees", category:"western",
+    spotify_url:"https://open.spotify.com/track/2JoZzpdeP2G6Csfdq5aLXP",
+    youtube_id:"XpqqjU7u5Yc",
+    note:"Bee Gees 的柔情代表作，你收藏裡的必聽。" },
+  { id:45, title:"Woman in Love", artist:"Barbra Streisand", category:"western",
+    spotify_url:"https://open.spotify.com/track/1pTGc8pwyo6xtgXBKCBcFn",
+    youtube_id:"xFA1cVYeH-c",
+    note:"Barbra 的招牌金曲，你收藏裡的大氣之作。" },
+  { id:46, title:"Toccata", artist:"Paul Mauriat", category:"instrumental",
+    spotify_url:"https://open.spotify.com/track/4tWq2OGNNv9iMdZk35iduC",
+    youtube_id:"ChnIj6nrbDY",
+    note:"Paul Mauriat 的管弦樂經典，氣勢磅礴。" },
+  { id:47, title:"Mariage d'amour", artist:"Richard Clayderman", category:"instrumental",
+    spotify_url:"https://open.spotify.com/track/6wUS6fFYO3VwJsbUn7zWEW",
+    youtube_id:"FR-9YIQbTsw",
+    note:"克萊德曼的鋼琴名曲，婚禮上最常聽見的旋律。" },
+  { id:48, title:"Печальный Ангел", artist:"Igor Krutoy", category:"instrumental",
+    spotify_url:"https://open.spotify.com/track/6INWB1nwcIhMxRqVrGLRwe",
+    youtube_id:"n3srRtzoTpc",
+    note:"Igor Krutoy 的作品，你收藏裡的俄式浪漫。" },
+  { id:49, title:"Biscaya", artist:"James Last", category:"instrumental",
+    spotify_url:"https://open.spotify.com/track/4R45nMBvtWZF0nOiRSyyy9",
+    youtube_id:"V4azwDrgg2Q",
+    note:"James Last 的輕音樂經典，旋律一響就放鬆。" },
+  { id:50, title:"Wonderland By Night", artist:"Bert Kaempfert", category:"instrumental",
+    spotify_url:"https://open.spotify.com/track/5Ik1BD4gKzxofvNgSRQbCF",
+    youtube_id:"c3tVOymazXk",
+    note:"德國輕音樂大師的代表作，夜晚的夢幻之聲。" },
 ];
 
 /* 听过状态：localStorage 持久化 */
@@ -435,7 +515,7 @@ function togglePlaylist(){
   const box = document.getElementById("playlistBox");
   if(playlistOpen){
     box.style.display = "block";
-    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/5mWHweQFbzm5KqGgadhuIS?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/6WXPYBpoE9v7NuBEvB3kit?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
   } else {
     box.style.display = "none";
     box.innerHTML = "";

@@ -137,7 +137,7 @@ footer{text-align:center; color:var(--muted); font-size:12px; letter-spacing:.25
   <div class="stats" id="stats"></div>
   <div style="margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
     <button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button>
-    <a class="btn big shuffle" href="spotify:playlist:4qehoc4kf6NlHZSauKvq3b">🔀 随机播放</a>
+    <a class="btn big shuffle" href="spotify:playlist:0Bg2rNxqOgt3k0pUyqJLD8">🔀 随机播放</a>
   </div>
   <div id="playlistBox" style="display:none; max-width:640px; margin:16px auto 0; border-radius:12px; overflow:hidden; border:1px solid var(--line);"></div>
 </header>
@@ -260,10 +260,10 @@ const SONGS = [
     spotify_url:"https://open.spotify.com/track/31tZJyXMJaWBYStW7QmE5t",
     youtube_id:"2VFKNalvnpo",
     note:"陳淑樺最動人的情歌之一，唱盡清醒後的放手與心痛。" },
-  { id:472, title:"瀟灑走一回", artist:"葉倩文", category:"mandarin",
-    spotify_url:"https://open.spotify.com/track/7DXCESWzneephQlAS161bj",
-    youtube_id:"aAt1V8RuWmY",
-    note:"葉倩文的瀟灑宣言，拿得起也放得下。" },
+  { id:472, title:"城裡的月光", artist:"許美靜", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/707FLb21MhsCzcac6nmvDk",
+    youtube_id:"Ikjo91QACDI",
+    note:"許美靜的經典之作，月光下的溫柔與遺憾。" },
   { id:473, title:"明天你是否依然愛我", artist:"童安格", category:"mandarin",
     spotify_url:"https://open.spotify.com/track/0s7IhdKVzfT6Uot1OBODm3",
     youtube_id:"UGTOXaKzyfU",
@@ -425,7 +425,7 @@ function togglePlaylist(){
     playlistOpen = true;
     const box = document.getElementById("playlistBox");
     box.style.display = "block";
-    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/4qehoc4kf6NlHZSauKvq3b?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/0Bg2rNxqOgt3k0pUyqJLD8?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
   }
   render();
 }

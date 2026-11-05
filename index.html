@@ -137,7 +137,7 @@ footer{text-align:center; color:var(--muted); font-size:12px; letter-spacing:.25
   <div class="stats" id="stats"></div>
   <div style="margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
     <button class="btn play big" onclick="togglePlaylist()">🎵 连续播放全部</button>
-    <a class="btn big shuffle" href="spotify:playlist:0kOiyvay9EGU56FrCctTzb">🔀 随机播放</a>
+    <a class="btn big shuffle" href="spotify:playlist:4abUzYeIVq9ODLVrP5fUIh">🔀 随机播放</a>
   </div>
   <div id="playlistBox" style="display:none; max-width:640px; margin:16px auto 0; border-radius:12px; overflow:hidden; border:1px solid var(--line);"></div>
 </header>
@@ -260,18 +260,18 @@ const SONGS = [
     spotify_url:"https://open.spotify.com/track/1MHfBMYM2QCAF5PHrVxUuQ",
     youtube_id:"dqcoG9LUzgE",
     note:"苏芮的代表作之一，月光下的深情与坚韧。" },
-  { id:492, title:"大约在冬季", artist:"齐秦", category:"mandarin",
-    spotify_url:"https://open.spotify.com/track/1UQ8iICKIC9K4XwhRI05a7",
-    youtube_id:"PyMq8hAUSpY",
-    note:"齐秦深情的经典之作，冬日里的思念与等待。" },
+  { id:492, title:"紅豆", artist:"王菲", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/5l94Up12BJSjhH7Mhr2ji4",
+    youtube_id:"9Id86EL6t-0",
+    note:"王菲的經典情歌，紅豆寄相思。" },
   { id:493, title:"一场游戏一场梦", artist:"王杰", category:"mandarin",
     spotify_url:"https://open.spotify.com/track/0Id7swY6cWbvYLtVVF0wvq",
     youtube_id:"yD4apGrIqpY",
     note:"王杰的成名曲，沧桑嗓音唱尽爱情无奈。" },
-  { id:494, title:"吻别", artist:"张学友", category:"mandarin",
-    spotify_url:"https://open.spotify.com/track/1k0YFNylstvLBC3C5vPWP9",
-    youtube_id:"bZn1Pb2Ei64",
-    note:"张学友的国民情歌，离别之吻的深情告白。" },
+  { id:494, title:"水手", artist:"鄭智化", category:"mandarin",
+    spotify_url:"https://open.spotify.com/track/3xRNwjF4BkUxQmrBAXes6g",
+    youtube_id:"OtUM4qLFmX8",
+    note:"鄭智化最勵志的代表作，苦幹不怕浪。" },
   { id:495, title:"橄榄树", artist:"齐豫", category:"mandarin",
     spotify_url:"https://open.spotify.com/track/0wDUp07g7UEKdNf5isACA5",
     youtube_id:"9pqn7yWIr64",
@@ -292,10 +292,10 @@ const SONGS = [
     spotify_url:"https://open.spotify.com/track/3F2ikvDKZUvnT0NfvczUtC",
     youtube_id:"EpKiMJRiCBw",
     note:"美空ひばり晚期的深情名曲，人生如歌。" },
-  { id:500, title:"昴", artist:"谷村新司", category:"showa",
-    spotify_url:"https://open.spotify.com/track/74E2o7gPc7auKY71mLSfa1",
-    youtube_id:"i7sNXGPQDP8",
-    note:"谷村新司的壮阔名曲，仰望星空的豪情。" },
+  { id:500, title:"さよならのオーシャン", artist:"杉山清貴", category:"showa",
+    spotify_url:"https://open.spotify.com/track/4MvmOOuF1hOSgNNxte10OJ",
+    youtube_id:"xRBsErALFB4",
+    note:"杉山清貴單飛出道曲，夏日海邊的告別。" },
   { id:501, title:"Torn", artist:"Natalie Imbruglia", category:"western",
     spotify_url:"https://open.spotify.com/track/1Jaah2tmN9Hv81A87KZ1MU",
     youtube_id:"VV1XWJN3nJo",
@@ -312,10 +312,10 @@ const SONGS = [
     spotify_url:"https://open.spotify.com/track/1PVTvvxpSkyJWemW1CwVVk",
     youtube_id:"ZEcqHA7dbwM",
     note:"Sinatra 的爵士标准曲，浪漫飞向月球。" },
-  { id:505, title:"Scarborough Fair", artist:"Simon & Garfunkel", category:"western",
-    spotify_url:"https://open.spotify.com/track/3g2fYZW5v2od8KIF7VktT0",
-    youtube_id:"ZVzdNGX8syo",
-    note:"Simon & Garfunkel 的民谣经典，古老集市的低语。" },
+  { id:505, title:"I'm Coming Out", artist:"Diana Ross", category:"western",
+    spotify_url:"https://open.spotify.com/track/3SnGymj6ijE2iuUfWxLo1q",
+    youtube_id:"F-mjl63e0ms",
+    note:"Diana Ross 1980 年的標誌性歌曲，昂首走出來。" },
   { id:506, title:"Schindler's List", artist:"Itzhak Perlman", category:"instrumental",
     spotify_url:"https://open.spotify.com/track/4PmHTFandvWNTkgd0NLPbn",
     youtube_id:"UfLcfyR8viE",
@@ -425,7 +425,7 @@ function togglePlaylist(){
     playlistOpen = true;
     const box = document.getElementById("playlistBox");
     box.style.display = "block";
-    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/0kOiyvay9EGU56FrCctTzb?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/4abUzYeIVq9ODLVrP5fUIh?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
   }
   render();
 }
